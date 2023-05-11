@@ -1,0 +1,30 @@
+checks:
+  java: true
+
+build:
+  dependencies:
+    override:
+      - true
+
+  environment:
+    memcached: false
+    postgresql: false
+    redis: false
+    mysql: false
+    neo4j: false
+    rabbitmq: false
+    elasticsearch: false
+
+  nodes:
+    analysis:
+      tests:
+        override:
+          - java-scrutinizer-run
+
+filter:
+  excluded_paths:
+    - .github
+    - config
+    - design-docs
+    - docs
+    - sample-scenarios
