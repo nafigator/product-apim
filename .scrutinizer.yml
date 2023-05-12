@@ -2,9 +2,9 @@ checks:
   java: true
 
 build:
-  dependencies:
-    override:
-      - true
+#  dependencies:
+#    override:
+#      - true
 
   environment:
     memcached: false
@@ -20,6 +20,25 @@ build:
       tests:
         override:
           - java-scrutinizer-run
+          -
+            command: mvn findbugs:findbugs
+            analysis:
+              file: /home/scrutinizer/build/target/findbugs/findbugsXml.xml
+              format: findbugs-xml
+          -
+            command: java-sonar-run
+            use_website_config: true
+            idle_timeout: 600
+          -
+            command: mvn pmd:pmd
+            analysis:
+              file: /home/scrutinizer/build/target/pmd/pmd.xml
+              format: pmd-xml
+
+  tests:
+    override:
+      -
+        command: false
 
 filter:
   excluded_paths:
@@ -28,3 +47,4 @@ filter:
     - design-docs
     - docs
     - sample-scenarios
+    - modules/integration
